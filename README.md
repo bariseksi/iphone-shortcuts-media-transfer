@@ -12,15 +12,21 @@ In order to transfer media from your IPhone you need to create a shortcut from I
 
 
 then actions are seen below needs to be added.
-Set the IP address of your computer and the port to URL action (default port is 2560)
+
+- Add the "URL" action and set the IP address of your computer and the port to URL action (default port is 2560).
+If your pc has a IPAdress of 192.168.1.10 then the "URL" action should be http://192.168.1.10:2560 the number after the semicolon is the port number.
+- Add the "Select photos" action this action opens the photo app of your phone and lets you select desired photos or videos when you run the completed shortcut.
+- Since "Select photos" returns more than one media we need to iterate them one by one with "Repeat with Each" action.
+- Inside the "Repeat with Each" action "Get contents of" action needs to be added. This is the action actually does the job.
 <p align="left">
   <img src="images/img_002.png" width="350">
 </p>
 
-configure the contents of the "Get contents of" action like below.
-"filename" header must be added and "Repeated Item" needs to be pointed in order to get filename.
-and you need to set the URL you added previously.
-
+"Get contents of" action is the action that makes the HTTP request.
+Configure the contents of the "Get contents of" action like below.
+- Set the HTTP request method as POST.
+- "filename" header must be added to the HTTP request and "Repeated Item" needs to be pointed in order to get filename.
+- You need to set the URL of the "Get contents of" action to the url you added previously.
 <p align="left">
   <img src="images/img_003.png" width="350">
 </p>
