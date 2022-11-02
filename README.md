@@ -3,6 +3,7 @@ Transfer your photo, video or any media to PC wirelessly via IPhone's Shortcuts 
 
 ## How To Make It Work
 Your IPhone and the PC you want to transfer to both must be in the same network.
+First you need to compile the "ShortcutsListener" C# .net project and run the application (server).
 In order to transfer media from your IPhone you need to create a shortcut from IPhone's Shortcuts application by pressing + sign.
 
 <p align="left">
