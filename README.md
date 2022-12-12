@@ -18,7 +18,7 @@ then actions are seen below needs to be added.
 
 - Add the "URL" action and set the IP address of your computer and the port to URL action (default port is 2560).
 If your pc has a IPAdress of 192.168.1.10 then the "URL" action should be http://192.168.1.10:2560 the number after the semicolon is the port number.
-- Add the "Select photos" action this action opens the photo app of your phone and lets you select desired photos or videos when you run the completed shortcut.
+- Add the "Select photos" action with "Select Multiple" option turned on and "Include" option set to "All". This action opens the photo app of your phone and lets you select desired photos or videos when you run the completed shortcut.
 - Since "Select photos" returns "Photos" variable that is contains more than one media we need to iterate each of them by adding "Repeat with Each" action.
 - Inside the "Repeat with Each" action "Get contents of" action needs to be added. This is the action actually does the job.
 <p align="left">
