@@ -1,5 +1,5 @@
 # iphone-shortcuts-media-transfer
-Transfer your photo, video or any media to PC wirelessly via IPhone's built-in Shortcuts application with Http Post request.
+Directly transfer your photo, video or any media to any PC wirelessly via IPhone's built-in Shortcuts application with Http Post request without any necessity of 3rd party drive/web/internet services. 
 
 ## How To Make It Work
 Your IPhone and the PC you want to transfer, both must be in the same network.
