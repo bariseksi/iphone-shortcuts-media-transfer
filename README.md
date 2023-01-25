@@ -38,4 +38,5 @@ Now you can start the server and then run the shortcut.
 All selected photos and videos will be transfered to PC.
 You may need to download required codecs to your computer to view your files.
 
-You can do other shortcuts that can send other file types from IPhone's "Files" application. Its up to your imagination. 
+You can do other shortcuts that can send other file types from IPhone's "Files" application. Its up to your imagination.
+- Note: Transfer stops as soon as iPhone screen goes off. You need to keep the screen on when you are transfering too many photos or huge videos.
