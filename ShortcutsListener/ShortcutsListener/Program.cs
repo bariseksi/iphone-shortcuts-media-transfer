@@ -6,39 +6,33 @@ namespace ShortcutsListener
 {
     class Program
     {
+        private static byte[] responseBytes = Encoding.ASCII.GetBytes(HTTPRequest.BasicResponse);
+        private static byte[] msg = new byte[10000];
+
         [STAThread]
         static void Main(string[] args)
         {
-            int port = 2560;
-            byte[] responseBytes = Encoding.ASCII.GetBytes(HTTPRequest.BasicResponse);
-            TcpListener server = new(IPAddress.Any, port);
-            byte[] msg = new byte[10000];
+            var port = 2560;
+            var server = new TcpListener(IPAddress.Any, port);
             server.Start();
 
             while (true)
             {
                 Console.WriteLine($"Listening on port {port}");
-                TcpClient client = server.AcceptTcpClient();  //if a connection exists, the server will accept it
-                NetworkStream ns = client.GetStream(); //networkstream is used to send/receive messages
+                var client = server.AcceptTcpClient();  //if a connection exists, the server will accept it
+                var networkStream = client.GetStream(); //networkstream is used to send/receive messages
 
-                HTTPRequest.Parse(ns);
+                HTTPRequest.Parse(networkStream);
 
                 //get the file size 
                 if (HTTPRequest.Headers.ContainsKey(HTTPReqHeaderKey.ContentLength) && int.TryParse(HTTPRequest.Headers[HTTPReqHeaderKey.ContentLength], out int numberOfbytesToRead))
-                {
-
-                    string? fileName;
-                    if (HTTPRequest.Headers.ContainsKey(HTTPReqHeaderKey.FileName))
-                    {
-                        fileName = HTTPRequest.Headers[HTTPReqHeaderKey.FileName];
-                    }
-                    else //if file name is not specified generate something unique
-                    {
-                        fileName = $"file_{Guid.NewGuid()}";
-                    }
+                {                 
+                    var fileName = HTTPRequest.Headers.ContainsKey(HTTPReqHeaderKey.FileName) 
+                        ? HTTPRequest.Headers[HTTPReqHeaderKey.FileName] 
+                        : $"file_{Guid.NewGuid()}";
 
                     //get the extention of the file its been always image/*, video/*, */*
-                    string? fileExtention = HTTPRequest.Headers[HTTPReqHeaderKey.ContentType].Split('/')[1].ToLower();
+                    var fileExtention = HTTPRequest.Headers[HTTPReqHeaderKey.ContentType].Split('/')[1].ToLower();
 
 
                     switch (fileExtention)
@@ -56,21 +50,22 @@ namespace ShortcutsListener
                     fileName = fileName + "." + fileExtention;
 
                     Console.WriteLine(fileName);
-                    FileStream fs = new FileStream(fileName, FileMode.Create);
+                    var fileStream = new FileStream(fileName, FileMode.Create);
                     int readCounter = 0;
+
                     while (readCounter < numberOfbytesToRead)
                     {
-                        int numberOfBytesRead = ns.Read(msg, 0, msg.Length);
+                        int numberOfBytesRead = networkStream.Read(msg, 0, msg.Length);
                         readCounter += numberOfBytesRead;
-                        fs.Write(msg, 0, numberOfBytesRead);
+                        fileStream.Write(msg, 0, numberOfBytesRead);
                         Console.SetCursorPosition(0, Console.CursorTop);
                         Console.Write($"{((UInt64)readCounter * 100) / ((UInt64)numberOfbytesToRead - 1)}% Completed");
                     }
-                    fs.Close();
+                    fileStream.Close();
                     Console.WriteLine('\n');
                 }
-                ns.Write(responseBytes, 0, responseBytes.Length);
-                ns.Close();
+                networkStream.Write(responseBytes, 0, responseBytes.Length);
+                networkStream.Close();
                 client.Close();
             }
         }
