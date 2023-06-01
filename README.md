@@ -40,3 +40,4 @@ You may need to download required codecs to your computer to view your files.
 
 You can do other shortcuts that can send other file types from IPhone's "Files" application. Its up to your imagination.
 - Note: Transfer stops as soon as iPhone screen goes off. You need to keep the screen on while you are transfering too many photos or huge videos.
+- Note: To make large amount of photo/video transfer 'Allow Sharing Large Amounts of Data' needs to be turned on from 'Settings -> Shortcuts -> Advanced' screen.
