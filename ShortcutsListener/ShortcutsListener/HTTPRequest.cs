@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 using System.Text;
 
 namespace ShortcutsListener
@@ -8,36 +7,36 @@ namespace ShortcutsListener
     {
         private static byte[] byteArray = new byte[10000];
         public static Dictionary<string, string> Headers = new Dictionary<string, string>();
-        public static string Method;
-        public static string Request;
+        public static string? Method;
+        public static string? Request;
         public static string BasicResponse = "HTTP/1.1 200 OK\n";
 
-        static public void Parse(NetworkStream stream)
+        public static void Parse(NetworkStream stream)
         {
             int foundCounter = 0;
             byte[] endOfLine = { 13, 10 };
             bool parsingDone = false;
             int numberOfLineFound = 0;
             Headers.Clear();
-            while(!parsingDone)
+            while (!parsingDone)
             {
                 for (int i = 0; i < byteArray.Length; i++)
                 {
                     byte _byte = (byte)stream.ReadByte(); //reads -1 when reaches the end
                     byteArray[i] = _byte;
-                    if(_byte == endOfLine[foundCounter])
+                    if (_byte == endOfLine[foundCounter])
                     {
                         foundCounter++;
-                        if(foundCounter == 2) //we found the end of line
+                        if (foundCounter == 2) //we found the end of line
                         {
-                            if(i == 1)
+                            if (i == 1)
                             {
                                 parsingDone = true;
                                 break;
                             }
                             foundCounter = 0;
                             numberOfLineFound++;
-                            if(numberOfLineFound == 1) //first line
+                            if (numberOfLineFound == 1) //first line
                             {
                                 string[] values = Encoding.ASCII.GetString(byteArray, 0, i - 1).Split(' ');
                                 Method = values[0].Trim('\r', ' ');
@@ -48,7 +47,7 @@ namespace ShortcutsListener
                                 string[] values = Encoding.ASCII.GetString(byteArray, 0, i - 1).Split(':');
                                 Headers.Add(values[0].Trim('\r', ' ').ToLower(), values[1].Trim('\r', ' ').ToLower());
                             }
-                            break; 
+                            break;
                         }
                     }
                 }
